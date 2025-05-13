@@ -1,0 +1,76 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Playwright browser data
+.playwright/
+
+# Docker
+.dockerignore
+
+# IDE settings
+.vscode/
+.idea/
+*.code-workspace
+.cursor/
+
+# Logs
+logs/
+*.log
+storage/parser_output.log
+storage/news_bot.log
+uvicorn_*.log
+
+# Cache and tmp files
+.cache/
+.tmp/
+
+# Test directory
+test/
+
+# Директории IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Storage files (исключаем базы и кэши)
+storage/*.json
+!filters/*.json  # Разрешаем JSON файлы в директории filters
+
+# PID файлы
+storage/*.pid
+
+# Переменные окружения
+.env
+
+# Локальные файлы истории и данных
+history.json
+*.json 
