@@ -1,0 +1,62 @@
+version: 1
+
+# Не отключать существующие логгеры (например, из библиотек)
+disable_existing_loggers: false
+
+formatters:
+  default:
+    format: "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+  access:
+    format: "%(asctime)s | %(levelname)s | %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: default
+    stream: ext://sys.stdout
+  file:
+    class: logging.handlers.RotatingFileHandler
+    formatter: default
+    filename: storage/news_bot.log
+    maxBytes: 5242880  # 5 MB
+    backupCount: 1     # Только один резервный файл
+    encoding: utf8
+  access_file:
+    class: logging.handlers.RotatingFileHandler
+    formatter: access
+    filename: storage/uvicorn_access.log
+    maxBytes: 5242880
+    backupCount: 1
+    encoding: utf8
+
+loggers:
+  uvicorn:
+    level: INFO
+    handlers: [console, file]
+    propagate: no
+  uvicorn.error:
+    level: INFO
+    handlers: [console, file]
+    propagate: no
+  uvicorn.access:
+    level: INFO
+    handlers: [console, access_file]
+    propagate: no
+  fastapi:
+    level: INFO
+    handlers: [console, file]
+    propagate: no
+  __main__:
+    level: DEBUG
+    handlers: [console, file]
+    propagate: no
+  utils.logger:
+    level: DEBUG
+    handlers: [console, file]
+    propagate: no
+
+root:
+  level: INFO
+  handlers: [console, file] 

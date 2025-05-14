@@ -19,6 +19,7 @@ from config import TELEGRAM_BOT_TOKEN, USER_ID
 from sources.mosru import get_all_mosru_news
 from sources.dzen import fetch_dzen_news
 from storage.s3 import s3_storage
+from storage.sent_cache import sent_url_cache
 
 class NewsBot:
     """
@@ -148,6 +149,14 @@ class NewsBot:
             return 0
         sent_count = 0
         for news in news_items:
+            url = getattr(news, 'url', None)
+            if not url:
+                logger.warning(f"Новость без URL: {news}")
+                continue
+            if sent_url_cache.is_sent(url):
+                sent_at = sent_url_cache.get_sent_at(url)
+                logger.warning(f"Попытка повторной отправки новости: {url} (отправлена ранее {sent_at})")
+                continue
             # Универсальный формат: если есть to_telegram_message — используем его
             if hasattr(news, 'to_telegram_message'):
                 message = news.to_telegram_message()
@@ -159,6 +168,7 @@ class NewsBot:
             )
             if success:
                 sent_count += 1
+                sent_url_cache.add(url)
                 await asyncio.sleep(0.5)
         return sent_count
     
@@ -356,7 +366,7 @@ class NewsBot:
             await update.message.reply_text("У вас нет доступа к этому боту.")
             return
         
-        log_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'storage/parser_output.log')
+        log_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'storage/news_bot.log')
         if not os.path.exists(log_file_path):
             await update.message.reply_text("Файл логов не найден.")
             return
@@ -394,7 +404,7 @@ class NewsBot:
             await update.message.reply_text("У вас нет доступа к этому боту.")
             return
         
-        log_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'storage/parser_output.log')
+        log_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'storage/news_bot.log')
         if not os.path.exists(log_file_path):
             await update.message.reply_text("⚠️ Файл логов не найден")
             return

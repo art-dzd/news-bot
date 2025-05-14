@@ -73,8 +73,6 @@ def start_parser_process():
         env['WITHOUT_BOT'] = '1'
         process = subprocess.Popen(
             [sys.executable, main_script],
-            stdout=open(os.path.join(os.path.dirname(__file__), "storage", "parser_output.log"), "a"),
-            stderr=subprocess.STDOUT,
             env=env,
             start_new_session=True  # Создает новую сессию, чтобы процесс не зависел от текущего
         )

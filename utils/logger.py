@@ -7,7 +7,6 @@ from config import LOG_LEVEL
 
 # Пути к файлам логов
 LOG_FILE_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'storage', 'news_bot.log')
-PARSER_OUTPUT_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'storage', 'parser_output.log')
 
 # Максимальное количество строк в лог-файле
 MAX_LOG_LINES = 10000
@@ -112,9 +111,6 @@ def truncate_log_file(log_path, max_lines=10000):
     except Exception as e:
         # В случае ошибки пишем в логи и продолжаем
         print(f"Ошибка при обрезке лог-файла {log_path}: {e}")
-
-# Обрезаем лог парсера, если он превышает максимальный размер
-truncate_log_file(PARSER_OUTPUT_PATH, MAX_LOG_LINES)
 
 # Настройка логгера
 def setup_logger():

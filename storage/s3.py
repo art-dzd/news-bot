@@ -11,7 +11,6 @@ MOSRU_HISTORY_PATH = os.path.join(os.path.dirname(__file__), 'mosru_history.json
 DZEN_HISTORY_PATH = os.path.join(os.path.dirname(__file__), 'dzen_history.json')
 DZEN_ANALYZED_URLS_PATH = os.path.join(os.path.dirname(__file__), 'dzen_analyzed_urls.json')
 PARSER_STATE_PATH = os.path.join(os.path.dirname(__file__), 'parser_state.json')
-PARSER_OUTPUT_PATH = os.path.join(os.path.dirname(__file__), 'parser_output.log')
 CACHE_EMBEDDINGS_PATH = os.path.join(os.path.dirname(__file__), 'cache_embeddings.json')
 MAX_ANALYZED_URLS = 5000  # Максимальное количество URL для хранения
 
